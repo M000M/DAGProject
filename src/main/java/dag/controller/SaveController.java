@@ -1,10 +1,10 @@
-package controller;
+package dag.controller;
 
-import dto.RestDto;
+import dag.dto.RestDto;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import service.SaveService;
+import dag.service.SaveService;
 import utils.SHA1Utils;
 
 @RestController
@@ -20,6 +20,8 @@ public class SaveController {
     @RequestMapping(value = "saveDate", method = RequestMethod.POST)
     public RestDto saveData(String value) {
         RestDto restDto = new RestDto();
+
+        return restDto;
     }
 
 

@@ -1,4 +1,4 @@
-package service;
+package dag.service;
 
 public interface SaveService {
     boolean save(String value);

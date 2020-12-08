@@ -1,4 +1,4 @@
-package dto;
+package dag.dto;
 
 public class RestDto {
 

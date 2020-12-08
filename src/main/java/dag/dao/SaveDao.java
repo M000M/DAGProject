@@ -1,4 +1,4 @@
-package dao;
+package dag.dao;
 
 public interface SaveDao {
 
