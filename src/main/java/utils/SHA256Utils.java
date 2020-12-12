@@ -24,7 +24,7 @@ public class SHA256Utils {
 
     @Test
     public void test() {
-        String value = "Welcome";
+        String value = "this";
         String res = sha256Code(value);
         System.out.println(res);
     }
