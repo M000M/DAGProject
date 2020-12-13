@@ -7,6 +7,10 @@
         select * from dag_block
     </select>
 
+    <select id="getBlockById" resultType="dag.pojo.Block" parameterType="java.lang.Integer">
+        select * from dag_block where id=#{id}
+    </select>
+
     <insert id="addBlock" parameterType="dag.pojo.Block">
         insert into dag_block(`pre1`, `pre2`, `data`, `hash`) values(#{pre1}, #{pre2}, #{data}, #{hash})
     </insert>

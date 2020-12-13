@@ -37,8 +37,9 @@ public class BlockMapperTest {
         Block block = new Block();
         block.setPre1(SHA256Utils.sha256Code("3"));
         block.setPre2(SHA256Utils.sha256Code("4"));
-        block.setData("value1");
-        block.setHash(SHA256Utils.sha256Code("value1"));
+        String value = "value10";
+        block.setData(value);
+        block.setHash(SHA256Utils.sha256Code(value));
 
         SqlSession sqlSession = null;
 

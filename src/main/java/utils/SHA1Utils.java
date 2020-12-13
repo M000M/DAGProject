@@ -1,7 +1,5 @@
 package utils;
 
-import org.junit.Test;
-
 import java.security.MessageDigest;
 
 public class SHA1Utils {
@@ -19,12 +17,5 @@ public class SHA1Utils {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Test
-    public void test() {
-        String str = "Welcome";
-        String res = sha1Code(str);
-        System.out.println(res);
     }
 }

@@ -1,7 +1,5 @@
 package utils;
 
-import org.junit.Test;
-
 import java.security.MessageDigest;
 
 public class SHA256Utils {
@@ -22,10 +20,4 @@ public class SHA256Utils {
         }
     }
 
-    @Test
-    public void test() {
-        String value = "this";
-        String res = sha256Code(value);
-        System.out.println(res);
-    }
 }
