@@ -12,7 +12,8 @@
     </select>
 
     <insert id="addBlock" parameterType="dag.pojo.Block">
-        insert into dag_block(`pre1`, `pre2`, `data`, `hash`) values(#{pre1}, #{pre2}, #{data}, #{hash})
+        insert into dag_block(`pre1`, `pre2`, `data`, `hash`, `num`, `timestamp`)
+        values(#{pre1}, #{pre2}, #{data}, #{hash}, #{num}, #{timestamp})
     </insert>
 
     <select id="getBlockByHash" parameterType="java.lang.String" resultType="dag.pojo.Block">
