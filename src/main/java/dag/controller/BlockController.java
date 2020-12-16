@@ -4,15 +4,21 @@ import dag.pojo.Block;
 import dag.pojo.Result;
 import dag.service.BlockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class BlockController {
 
     @Autowired
     private BlockService blockService;
+
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String index() {
+        return "index";
+    }
 
     @RequestMapping(value = "/getBlockList", method = RequestMethod.GET)
     public List<Block> getBlockList() {
