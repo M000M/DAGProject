@@ -5,8 +5,9 @@ import dag.pojo.Result;
 import dag.service.BlockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -20,9 +21,32 @@ public class BlockController {
         return "index";
     }
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String hello() {
-        return "hello";
+    @RequestMapping(value = "/save", method = RequestMethod.GET)
+    public String save() {
+        return "save";
+    }
+
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String save(@RequestParam(value="data", required = true) String data, Model model, HttpServletRequest request) {
+        String hash = blockService.addBlock(data);
+        model.addAttribute("data", data);
+        model.addAttribute("hash", hash);
+        return "save";
+    }
+
+    @RequestMapping(value = "/read", method = RequestMethod.GET)
+    public String read() {
+        return "read";
+    }
+
+    @RequestMapping(value = "/read", method = RequestMethod.POST)
+    public String read(@RequestParam(value="hash", required = false) String hash, Model model, HttpServletRequest request) {
+        if (hash != null) {
+            String data = blockService.getBlockByHash(hash);
+            model.addAttribute("hash", hash);
+            model.addAttribute("data", data);
+        }
+        return "read";
     }
 
     @RequestMapping(value = "/getBlockList", method = RequestMethod.GET)

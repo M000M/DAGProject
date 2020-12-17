@@ -64,7 +64,7 @@ public class BlockService {
 
             block.setPre1(pre1.getHash());
             block.setPre2(pre2.getHash());
-            hash = SHA256Utils.sha256Code(pre1.getHash() + pre2.getHash() + data);
+            hash = SHA256Utils.sha256Code(pre1.getHash() + pre2.getHash() + data + block.getTimestamp());
             block.setHash(hash);
             blockSet.add(block);
         }
