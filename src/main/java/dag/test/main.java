@@ -3,18 +3,20 @@ package dag.test;
 import java.util.*;
 
 public class main {
-    public static int BEGIN_NUMBER= 3;
-    public static int MIN_WEIGHT= 0;
-    public static int MAX_WEIGHT= 100;
-    public static int MIN_SOCRE= 0;
+    public static int BEGIN_NUMBER = 3;
+    public static int MIN_WEIGHT = 0;
+    public static int MAX_WEIGHT = 100;
+    public static int MIN_SOCRE = 0;
+
     public static void main(String[] args) {
 
         Node theFirstNode = init();
         Node node = new Node();
         node.setWeight(1);
-        addNode(theFirstNode,node);
+        addNode(theFirstNode, node);
     }
-    public static Node init(){
+
+    public static Node init() {
         Node first = new Node();
         first.setWeight(1);
         Node a = new Node();
@@ -58,11 +60,11 @@ public class main {
         h.setWeight(8);
         i.setWeight(9);
         j.setWeight(10);
-        f.setPre(a,c);
-        g.setPre(c,d);
-        h.setPre(a,e);
-        i.setPre(a,c);
-        j.setPre(c,e);
+        f.setPre(a, c);
+        g.setPre(c, d);
+        h.setPre(a, e);
+        i.setPre(a, c);
+        j.setPre(c, e);
         a.addLastNode(f);
         a.addLastNode(h);
         a.addLastNode(i);
@@ -106,12 +108,13 @@ public class main {
 
         return first;
     }
-    public static boolean addNode(Node firstNode,Node newNode){
-        List<Node> beginNode = findBegin(firstNode,BEGIN_NUMBER,MIN_WEIGHT,MAX_WEIGHT);
+
+    public static boolean addNode(Node firstNode, Node newNode) {
+        List<Node> beginNode = findBegin(firstNode, BEGIN_NUMBER, MIN_WEIGHT, MAX_WEIGHT);
         List<Node> twoNode = findTwo(beginNode);
         twoNode.get(0).addLastNode(newNode);
         twoNode.get(1).addLastNode(newNode);
-        newNode.setPre(twoNode.get(0),twoNode.get(1));
+        newNode.setPre(twoNode.get(0), twoNode.get(1));
         newNode.updateScore();
         newNode.updateAllTotalWeight(newNode);
         System.out.println(twoNode.get(0).getWeight());
@@ -120,23 +123,24 @@ public class main {
         return true;
 
     }
-    public static List<Node> findBegin(Node firstNode,int count,int min,int max){
+
+    public static List<Node> findBegin(Node firstNode, int count, int min, int max) {
         Set<Node> set = new HashSet<>();
         Queue<Node> queue = new LinkedList<>();
         List<Node> list = new ArrayList<>();
         set.add(firstNode);
         queue.add(firstNode);
-        while (!queue.isEmpty()){
-            Node a= queue.poll();
-            for (Node node:a.getLastList()
-                 ) {
-                if(!set.contains(node)){
+        while (!queue.isEmpty()) {
+            Node a = queue.poll();
+            for (Node node : a.getLastList()
+            ) {
+                if (!set.contains(node)) {
                     set.add(node);
                     queue.offer(node);
-                    if(node.getScore()>=min&&node.getScore()<=max){
+                    if (node.getScore() >= min && node.getScore() <= max) {
                         list.add(node);
                         count--;
-                        if(count<=0){
+                        if (count <= 0) {
                             return list;
                         }
                     }
@@ -145,38 +149,41 @@ public class main {
         }
         return list;
     }
-    public static List<Node> findTwo(List<Node> begin){
-        Map<Node,Long> map = new HashMap<>();
-        for (int i=0;i<BEGIN_NUMBER;i++){
+
+    public static List<Node> findTwo(List<Node> begin) {
+        Map<Node, Long> map = new HashMap<>();
+        for (int i = 0; i < BEGIN_NUMBER; i++) {
             long be = System.currentTimeMillis();
             Node node = findNewest(begin.get(i));
             long ed = System.currentTimeMillis();
-            if(node.getScore()<MIN_SOCRE){
+            if (node.getScore() < MIN_SOCRE) {
                 break;
             }
             ed = ed - be;
-            if(map.containsKey(node)){
-                map.put(node,map.get(node)<ed?map.get(node):ed);
-            }else {
-            map.put(node,ed);}
-        }
-        List<Node> ls = new ArrayList<>();
-        map.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEachOrdered(e->ls.add(e.getKey()));
-        return ls.subList(0,2);
-    }
-    public static Node findNewest(Node node){
-        Random random = new Random();
-        while (!node.getLastList().isEmpty()){
-        List<Node> list = node.getLastList();
-        int judgeNumber = random.nextInt(node.getTotalWeight()-node.getWeight());
-        for (Node no:list
-             ) {
-            judgeNumber-=no.getWeight();
-            if(judgeNumber<0){
-                node=no;
-                break;
+            if (map.containsKey(node)) {
+                map.put(node, map.get(node) < ed ? map.get(node) : ed);
+            } else {
+                map.put(node, ed);
             }
         }
+        List<Node> ls = new ArrayList<>();
+        map.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEachOrdered(e -> ls.add(e.getKey()));
+        return ls.subList(0, 2);
+    }
+
+    public static Node findNewest(Node node) {
+        Random random = new Random();
+        while (!node.getLastList().isEmpty()) {
+            List<Node> list = node.getLastList();
+            int judgeNumber = random.nextInt(node.getTotalWeight() - node.getWeight());
+            for (Node no : list
+            ) {
+                judgeNumber -= no.getWeight();
+                if (judgeNumber < 0) {
+                    node = no;
+                    break;
+                }
+            }
         }
         return node;
     }
