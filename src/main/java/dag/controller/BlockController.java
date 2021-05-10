@@ -1,7 +1,7 @@
 package dag.controller;
 
 import dag.pojo.Block;
-import dag.pojo.Result;
+import dag.pojo.CommonResult;
 import dag.service.BlockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,12 +49,14 @@ public class BlockController {
         return "read";
     }
 
+    @ResponseBody
     @RequestMapping(value = "/getBlockList", method = RequestMethod.GET)
     public List<Block> getBlockList() {
-        System.out.println(blockService.getBlockList());
+         System.out.println(blockService.getBlockList());
         return blockService.getBlockList();
     }
 
+    @ResponseBody
     @RequestMapping(value="/getBlockById/{id}", method = RequestMethod.GET)
     public Block getBlockById(@PathVariable(name = "id") int id) {
         Block block = blockService.getBlockById(id);
@@ -62,9 +64,10 @@ public class BlockController {
         return block;
     }
 
+    @ResponseBody
     @RequestMapping(value = "/saveData", method = RequestMethod.POST)
-    public Result saveData(@RequestParam(value = "data", required = true) String data) {
-        Result result = new Result();
+    public CommonResult saveData(@RequestParam(value = "data", required = true) String data) {
+        CommonResult result = new CommonResult();
         String res;
         try {
             res = blockService.addBlock(data);
@@ -82,9 +85,10 @@ public class BlockController {
         }
     }
 
+    @ResponseBody
     @RequestMapping(value = "/readData", method = RequestMethod.POST)
-    public Result readData(@RequestParam(name = "hash", required = true) String hash) {
-        Result result = new Result();
+    public CommonResult readData(@RequestParam(name = "hash", required = true) String hash) {
+        CommonResult result = new CommonResult();
         try {
             String data = blockService.getBlockByHash(hash);
             if (data != null) {
