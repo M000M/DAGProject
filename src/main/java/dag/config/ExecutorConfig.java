@@ -15,8 +15,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 public class ExecutorConfig {
 
-    @Resource
-    private ThreadPoolTaskExecutor executor;
+    private static final ThreadPoolTaskExecutor executor;
+
+    static {
+        executor = new ThreadPoolTaskExecutor();
+    }
 
     @Bean
     public Executor asyncServiceExecutor() {

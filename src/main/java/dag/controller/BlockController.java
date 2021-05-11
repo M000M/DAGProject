@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.concurrent.Future;
 
 @Controller
 public class BlockController {
@@ -28,7 +29,7 @@ public class BlockController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(@RequestParam(value="data", required = true) String data, Model model, HttpServletRequest request) {
-        String hash = blockService.addBlock(data);
+        Future<String> hash = blockService.addBlock(data);
         model.addAttribute("data", data);
         model.addAttribute("hash", hash);
         return "save";
@@ -42,7 +43,7 @@ public class BlockController {
     @RequestMapping(value = "/read", method = RequestMethod.POST)
     public String read(@RequestParam(value="hash", required = false) String hash, Model model, HttpServletRequest request) {
         if (hash != null) {
-            String data = blockService.getBlockByHash(hash);
+            Future<String> data = blockService.getBlockByHash(hash);
             model.addAttribute("hash", hash);
             model.addAttribute("data", data);
         }
@@ -68,11 +69,11 @@ public class BlockController {
     @RequestMapping(value = "/saveData", method = RequestMethod.POST)
     public CommonResult saveData(@RequestParam(value = "data", required = true) String data) {
         CommonResult result = new CommonResult();
-        String res;
+        Future<String> res;
         try {
             res = blockService.addBlock(data);
             if (res != null) {
-                result.setData(res);
+                result.setData(res.get());
                 result.setSuccess();
             } else {
                 result.setFailure();
@@ -90,7 +91,7 @@ public class BlockController {
     public CommonResult readData(@RequestParam(name = "hash", required = true) String hash) {
         CommonResult result = new CommonResult();
         try {
-            String data = blockService.getBlockByHash(hash);
+            String data = blockService.getBlockByHash(hash).get();
             if (data != null) {
                 result.setSuccess();
                 result.setData(data);
