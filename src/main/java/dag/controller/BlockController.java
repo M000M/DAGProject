@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 @Controller
@@ -28,8 +29,8 @@ public class BlockController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(@RequestParam(value="data", required = true) String data, Model model, HttpServletRequest request) {
-        Future<String> hash = blockService.addBlock(data);
+    public String save(@RequestParam(value="data", required = true) String data, Model model, HttpServletRequest request) throws ExecutionException, InterruptedException {
+        String hash = blockService.addBlock(data).get();
         model.addAttribute("data", data);
         model.addAttribute("hash", hash);
         return "save";
@@ -41,9 +42,9 @@ public class BlockController {
     }
 
     @RequestMapping(value = "/read", method = RequestMethod.POST)
-    public String read(@RequestParam(value="hash", required = false) String hash, Model model, HttpServletRequest request) {
+    public String read(@RequestParam(value="hash", required = false) String hash, Model model, HttpServletRequest request) throws ExecutionException, InterruptedException {
         if (hash != null) {
-            Future<String> data = blockService.getBlockByHash(hash);
+            String data = blockService.getBlockByHash(hash).get();
             model.addAttribute("hash", hash);
             model.addAttribute("data", data);
         }
@@ -69,11 +70,11 @@ public class BlockController {
     @RequestMapping(value = "/saveData", method = RequestMethod.POST)
     public CommonResult saveData(@RequestParam(value = "data", required = true) String data) {
         CommonResult result = new CommonResult();
-        Future<String> res;
+        String res;
         try {
-            res = blockService.addBlock(data);
+            res = blockService.addBlock(data).get();
             if (res != null) {
-                result.setData(res.get());
+                result.setData(res);
                 result.setSuccess();
             } else {
                 result.setFailure();
