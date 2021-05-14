@@ -60,8 +60,8 @@ public class BlockController {
 
     @ResponseBody
     @RequestMapping(value="/getBlockById/{id}", method = RequestMethod.GET)
-    public Block getBlockById(@PathVariable(name = "id") int id) {
-        Block block = blockService.getBlockById(id);
+    public Block getBlockById(@PathVariable(name = "id") int id) throws ExecutionException, InterruptedException {
+        Block block = blockService.getBlockById(id).get();
         System.out.println(block.getData());
         return block;
     }

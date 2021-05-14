@@ -9,7 +9,7 @@ public interface BlockService {
 
     List<Block> getBlockList();
 
-    Block getBlockById(int id);
+    Future<Block> getBlockById(int id);
 
     Future<String> addBlock(String data);
 

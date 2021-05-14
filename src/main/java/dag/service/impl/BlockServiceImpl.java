@@ -45,9 +45,9 @@ public class BlockServiceImpl implements BlockService {
      */
     @Override
     @Async("asyncServiceExecutor")
-    public Block getBlockById(int id) {
+    public Future<Block> getBlockById(int id) {
         log.info("getBlockById\t threadId: {} ", Thread.currentThread().getId());
-        return blockMapper.getBlockById(id);
+        return AsyncResult.forValue(blockMapper.getBlockById(id));
     }
 
     /***
